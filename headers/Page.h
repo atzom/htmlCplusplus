@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #ifndef _html_Page
 #define _html_Page
 
@@ -47,56 +46,53 @@ using namespace std;
 
 namespace htmlCplusplus
 {
-	class Page: public IPage
-	{
+    class Page : public IPage
+    {
 
-		private:
+    private:
+        std::wostream *m_ostream;
 
-            std::wostream *m_ostream;
+        Identation m_Identation;
 
-            Identation m_Identation;
+        bool m_autoRender;
 
-            bool m_autoRender;
+        bool m_httpHeadersSent;
+        http::IHttpHeader *m_httpHeaders;
 
-			bool m_httpHeadersSent;
-			http::IHttpHeader *m_httpHeaders;
+        IHtmlHead *m_htmlHead;
+        HtmlBody m_htmlBody;
 
-            IHtmlHead *m_htmlHead;
-            HtmlBody m_htmlBody;
-            
-            IHtmlBeautify *m_Beautify;
+        IHtmlBeautify *m_Beautify;
 
-            void RenderStart();
-            void RenderHtmlHeaders();
-            void RenderBodyStart();
-            void RenderBody();
-            void RenderBodyEnd();
-            void RenderEnd();
+        void RenderStart();
+        void RenderHtmlHeaders();
+        void RenderBodyStart();
+        void RenderBody();
+        void RenderBodyEnd();
+        void RenderEnd();
 
+    public:
+        Page(std::wostream &ostr, std::string contentType = "text/html;charset=iso-8859-1", bool autoRender = false, Identation identation = (Identation){true, 4, 1});
+        Page(std::wostream &ostr, http::IHttpHeader *httpHeaders, bool autoRender = false, Identation identation = (Identation){true, 4, 1});
+        Page(std::wostream &ostr, IHtmlHead *htmlHead, bool autoRender = false, Identation identation = (Identation){true, 4, 1});
+        Page(std::wostream &ostr, http::IHttpHeader *httpHeaders, IHtmlHead *htmlHead, bool autoRender = false, Identation identation = (Identation){true, 4, 1});
+        Page(std::wostream &ostr, http::IHttpHeader *httpHeaders, IHtmlHead *htmlHead, IHtmlBeautify *beautify, bool autoRender = false, Identation identation = (Identation){true, 4, 1});
+        ~Page();
 
-		public:
+        void HttpHeadersClear();
+        void HttpHeadersSend();
+        void HttpHeadersAdd(string name, string content);
 
-			Page(std::wostream &ostr, std::string contentType = "text/html;charset=iso-8859-1", bool autoRender = false, Identation identation = (Identation){ true, 4, 1});
-            Page(std::wostream &ostr, http::IHttpHeader *httpHeaders, bool autoRender = false, Identation identation = (Identation){ true, 4, 1});
-            Page(std::wostream &ostr, IHtmlHead *htmlHead, bool autoRender = false, Identation identation = (Identation){ true, 4, 1});
-            Page(std::wostream &ostr, http::IHttpHeader *httpHeaders, IHtmlHead *htmlHead, bool autoRender = false, Identation identation = (Identation){ true, 4, 1});
-            Page(std::wostream &ostr, http::IHttpHeader *httpHeaders, IHtmlHead *htmlHead, IHtmlBeautify *beautify, bool autoRender = false, Identation identation = (Identation){ true, 4, 1});
-			~Page();
+        void HeadSetTitle(std::wstring title);
+        void HeadAddStyle(std::wstring style);
+        void HeadAddScript(std::wstring script);
+        void HeadAddLink(std::map<std::string, std::wstring> attributes);
 
-            void HttpHeadersClear();
-			void HttpHeadersSend();
-			void HttpHeadersAdd(string name, string content);
+        void BodyAdd(string name, string content, bool escapeChars);
+        void BodyAdd(Tag *tag);
 
-            void HeadSetTitle(std::wstring title);
-            void HeadAddStyle(std::wstring style);
-            void HeadAddScript(std::wstring script);
-            void HeadAddLink(std::map<std::string, std::wstring> attributes);
-
-            void BodyAdd(string name, string content, bool escapeChars);
-            void BodyAdd(Tag *tag);
-
-            void Render();
-	};
-}
+        void Render();
+    };
+} // namespace htmlCplusplus
 
 #endif

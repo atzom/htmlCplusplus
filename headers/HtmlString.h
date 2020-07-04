@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #ifndef _html_HtmlString
 #define _html_HtmlString
 
@@ -38,21 +37,20 @@ namespace htmlCplusplus
 {
     class HtmlString
     {
-        public:
-            HtmlString();
+    public:
+        HtmlString();
 
-            static std::string RemoveInvalid(const std::string content);
-            static std::string Escape(const std::string content);
+        static std::string RemoveInvalid(const std::string content);
+        static std::string Escape(const std::string content);
 
-            static std::wstring RemoveInvalid(const std::wstring content);
-            static std::wstring Escape(const std::wstring content);
+        static std::wstring RemoveInvalid(const std::wstring content);
+        static std::wstring Escape(const std::wstring content);
 
-            static std::wstring ToWString(std::string content);
-            
-            static std::string UrlEncode(std::string url);
-            static std::string UrlDecode(std::string url);
+        static std::wstring ToWString(std::string content);
+
+        static std::string UrlEncode(std::string url);
+        static std::string UrlDecode(std::string url);
     };
-}
-
+} // namespace htmlCplusplus
 
 #endif

@@ -35,7 +35,7 @@
 
 namespace htmlCplusplus
 {
-	
+
 	namespace http
 	{
 		HttpHeader::HttpHeader(std::wostream &ostr)
@@ -89,6 +89,6 @@ namespace htmlCplusplus
 				delete this;
 			}
 		}
-	}
+	} // namespace http
 
-}
+} // namespace htmlCplusplus

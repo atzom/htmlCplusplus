@@ -28,30 +28,28 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #ifndef _html_IBeautify
 #define _html_IBeautify
 
 #include <ostream>
-    
+
 namespace htmlCplusplus
 {
     typedef struct Identation
     {
         bool Ident;
         unsigned int IdentNumber;
-    
+
         unsigned int Level;
 
     } Identation;
 
-
     class IHtmlBeautify
     {
-        public:
-            virtual void RenderIdentation(std::wostream *m_ostream, Identation identation) = 0;
-            virtual void Dispose() = 0;
+    public:
+        virtual void RenderIdentation(std::wostream *m_ostream, Identation identation) = 0;
+        virtual void Dispose() = 0;
     };
-}
+} // namespace htmlCplusplus
 
-#endif    
+#endif

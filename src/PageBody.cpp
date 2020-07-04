@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #include "Page.h"
 #include "Tag.h"
 
@@ -49,7 +48,7 @@ namespace htmlCplusplus
         {
             if (m_autoRender)
             {
-                tag->Render((Identation) { m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level });
+                tag->Render((Identation){m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level});
                 tag->Dispose();
             }
             else
@@ -57,20 +56,18 @@ namespace htmlCplusplus
         }
     }
 
-
-	void Page::BodyAdd(Tag *tag)
-	{
+    void Page::BodyAdd(Tag *tag)
+    {
         if (tag != NULL)
         {
             tag->SetStream(*m_ostream);
             tag->SetBeautifier(m_Beautify);
 
             if (m_autoRender)
-                tag->Render((Identation) { m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level });
+                tag->Render((Identation){m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level});
             else
                 m_htmlBody.Add(tag);
         }
-	}
+    }
 
-}
-
+} // namespace htmlCplusplus

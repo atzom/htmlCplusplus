@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #include "Page.h"
 
 namespace htmlCplusplus
@@ -52,4 +51,4 @@ namespace htmlCplusplus
     {
         m_htmlHead->AddLink(attributes);
     }
-}
+} // namespace htmlCplusplus

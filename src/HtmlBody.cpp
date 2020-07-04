@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #include "HtmlBody.h"
 
 namespace htmlCplusplus
@@ -64,13 +63,13 @@ namespace htmlCplusplus
             }
         }
     }
-    
+
     void HtmlBody::Add(htmlCplusplus::Tag *tag)
     {
         if (tag != NULL)
         {
             tag->SetBeautifier(m_Beautify);
-            
+
             m_Tags.push_back(tag);
         }
     }
@@ -81,9 +80,9 @@ namespace htmlCplusplus
 
         while (iter != m_Tags.end())
         {
-            (*iter)->Render((Identation){ identation.Ident, identation.IdentNumber, identation.Level + 1 });
+            (*iter)->Render((Identation){identation.Ident, identation.IdentNumber, identation.Level + 1});
             iter++;
         }
     }
 
-}
+} // namespace htmlCplusplus

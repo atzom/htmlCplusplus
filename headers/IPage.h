@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #ifndef _html_IPage
 #define _html_IPage
 
@@ -42,23 +41,22 @@ namespace htmlCplusplus
 {
     class IPage
     {
-        public:
+    public:
+        virtual void HttpHeadersClear() = 0;
+        virtual void HttpHeadersSend() = 0;
+        virtual void HttpHeadersAdd(std::string name, std::string content) = 0;
 
-            virtual void HttpHeadersClear() = 0;
-			virtual void HttpHeadersSend() = 0;
-			virtual void HttpHeadersAdd(std::string name, std::string content) = 0;
+        virtual void HeadSetTitle(std::wstring title) = 0;
+        virtual void HeadAddStyle(std::wstring style) = 0;
+        virtual void HeadAddScript(std::wstring script) = 0;
+        virtual void HeadAddLink(std::map<std::string, std::wstring> attributes) = 0;
 
-            virtual void HeadSetTitle(std::wstring title) = 0;
-            virtual void HeadAddStyle(std::wstring style) = 0;
-            virtual void HeadAddScript(std::wstring script) = 0;
-            virtual void HeadAddLink(std::map<std::string, std::wstring> attributes) = 0;
+        virtual void BodyAdd(std::string name, std::string content, bool escapeChars) = 0;
+        virtual void BodyAdd(Tag *tag) = 0;
 
-            virtual void BodyAdd(std::string name, std::string content, bool escapeChars) = 0;
-            virtual void BodyAdd(Tag *tag) = 0;
-
-            virtual void Render() = 0;
+        virtual void Render() = 0;
     };
 
-}
+} // namespace htmlCplusplus
 
 #endif

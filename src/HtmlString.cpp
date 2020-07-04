@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -50,14 +49,14 @@ namespace htmlCplusplus
         {
             switch (*iter)
             {
-                case '<':
-                case '>':
-                case '&':
-                case '"':
-                    continue;
+            case '<':
+            case '>':
+            case '&':
+            case '"':
+                continue;
 
-                default:
-                    newContent.push_back(*iter);
+            default:
+                newContent.push_back(*iter);
             }
         }
 
@@ -72,20 +71,19 @@ namespace htmlCplusplus
         {
             switch (*iter)
             {
-                case '<':
-                case '>':
-                case '&':
-                case '"':
-                    continue;
+            case '<':
+            case '>':
+            case '&':
+            case '"':
+                continue;
 
-                default:
-                    newContent.push_back(*iter);
+            default:
+                newContent.push_back(*iter);
             }
         }
 
         return newContent;
     }
-
 
     std::string HtmlString::Escape(const std::string content)
     {
@@ -95,29 +93,28 @@ namespace htmlCplusplus
         {
             switch (*iter)
             {
-                case '<':
-                    newContent.append("&lt;");
-                    break;
+            case '<':
+                newContent.append("&lt;");
+                break;
 
-                case '>':
-                    newContent.append("&gt;");
-                    break;
+            case '>':
+                newContent.append("&gt;");
+                break;
 
-                case '&':
-                    newContent.append("&amp;");
-                    break;
+            case '&':
+                newContent.append("&amp;");
+                break;
 
-                case '"':
-                    newContent.append("&quot;");
-                    break;
+            case '"':
+                newContent.append("&quot;");
+                break;
 
-                default:
-                    newContent.push_back(*iter);
+            default:
+                newContent.push_back(*iter);
             }
         }
 
         return newContent;
-
     }
 
     std::wstring HtmlString::Escape(const std::wstring content)
@@ -128,29 +125,28 @@ namespace htmlCplusplus
         {
             switch (*iter)
             {
-                case '<':
-                    newContent.append(L"&lt;");
-                    break;
+            case '<':
+                newContent.append(L"&lt;");
+                break;
 
-                case '>':
-                    newContent.append(L"&gt;");
-                    break;
+            case '>':
+                newContent.append(L"&gt;");
+                break;
 
-                case '&':
-                    newContent.append(L"&amp;");
-                    break;
+            case '&':
+                newContent.append(L"&amp;");
+                break;
 
-                case '"':
-                    newContent.append(L"&quot;");
-                    break;
+            case '"':
+                newContent.append(L"&quot;");
+                break;
 
-                default:
-                    newContent.push_back(*iter);
+            default:
+                newContent.push_back(*iter);
             }
         }
 
         return newContent;
-
     }
 
     std::wstring HtmlString::ToWString(std::string content)
@@ -166,27 +162,23 @@ namespace htmlCplusplus
     {
         std::stringstream encoded;
 
-        for(std::string::const_iterator iter = url.begin(); iter != url.end(); iter++)
+        for (std::string::const_iterator iter = url.begin(); iter != url.end(); iter++)
         {
-            if 
-            (
-                (std::isdigit(*iter)) || 
-                (std::isalpha(*iter)) || 
-                (
-                    (*iter == '-') || (*iter == '_') || (*iter == '.') || (*iter == '~')
-                )
-            )
+            if (
+                (std::isdigit(*iter)) ||
+                (std::isalpha(*iter)) ||
+                ((*iter == '-') || (*iter == '_') || (*iter == '.') || (*iter == '~')))
             {
-                encoded  << (*iter);
+                encoded << (*iter);
             }
             else
             {
                 if (*iter == ' ')
                     encoded << '+';
                 else if ((unsigned int)(*iter) < 16)
-                    encoded << "%0" << std::setw(2) << std::hex << std::uppercase << ((unsigned int) (*iter));
+                    encoded << "%0" << std::setw(2) << std::hex << std::uppercase << ((unsigned int)(*iter));
                 else
-                    encoded << '%' << std::setw(2) << std::hex << std::uppercase << ((unsigned int) (*iter));
+                    encoded << '%' << std::setw(2) << std::hex << std::uppercase << ((unsigned int)(*iter));
             }
         }
 
@@ -201,16 +193,12 @@ namespace htmlCplusplus
 
         while (iter != url.end())
         {
-            if 
-            (
-                (std::isdigit(*iter)) || 
-                (std::isalpha(*iter)) || 
-                (
-                    (*iter == '-') || (*iter == '_') || (*iter == '.') || (*iter == '~')
-                )
-            )
+            if (
+                (std::isdigit(*iter)) ||
+                (std::isalpha(*iter)) ||
+                ((*iter == '-') || (*iter == '_') || (*iter == '.') || (*iter == '~')))
             {
-                decoded  << (*iter);
+                decoded << (*iter);
             }
             else
             {
@@ -249,4 +237,4 @@ namespace htmlCplusplus
 
         return decoded.str();
     }
-}
+} // namespace htmlCplusplus

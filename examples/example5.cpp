@@ -9,14 +9,13 @@
 
 using namespace std;
 
-
 int main(int argc, char **argv)
 {
     std::setlocale(LC_ALL, "el_GR.utf8");
     std::locale::global(std::locale("el_GR.utf8"));
-    
+
     std::wfstream wfstr;
-    
+
     wfstr.open("example5.html", std::fstream::out | std::fstream::ate);
 
     htmlCplusplus::HtmlBeautify *beautify = new htmlCplusplus::HtmlBeautify();
@@ -27,7 +26,7 @@ int main(int argc, char **argv)
     htmlHead->SetTitle(L"htmlCplusplus Utility for C++");
     htmlHead->AddStyle(L".error { color:#001122; }");
     htmlHead->AddScript(L"function callme() { document.getElementById(\"txtArea\").innerHTML = \"Created by Andreas Tzomakas\"; }");
-    htmlHead->AddMeta({ { "content-type", L"text/html; charset=utf-8" }, {"http-equiv", L"content-type"} });
+    htmlHead->AddMeta({{"content-type", L"text/html; charset=utf-8"}, {"http-equiv", L"content-type"}});
 
     htmlCplusplus::Tag *h1 = new htmlCplusplus::Tag("h1", "htmlCplusplus Utility for C++", true);
     htmlCplusplus::Tag *p = new htmlCplusplus::Tag("p");
@@ -43,9 +42,9 @@ int main(int argc, char **argv)
     b->AddAttribute("style", "color: red;", false);
 
     b->AddTag(new htmlCplusplus::Tag("i", "Hello ", true));
-    b->AddTag("u","world", true);
-    b->AddTag("del","written", true);
-    b->AddTag("ins","from ", true);
+    b->AddTag("u", "world", true);
+    b->AddTag("del", "written", true);
+    b->AddTag("ins", "from ", true);
 
     btn->AddAttribute("onclick", "callme(); return false;", false);
     b->AddTag(btn);
@@ -64,5 +63,5 @@ int main(int argc, char **argv)
     wfstr.flush();
     wfstr.close();
 
-	return 0;
+    return 0;
 }

@@ -39,38 +39,34 @@
 
 namespace htmlCplusplus
 {
-	
+
 	namespace http
 	{
-		class HttpHeader: public IHttpHeader
+		class HttpHeader : public IHttpHeader
 		{
-			private:
+		private:
+			std::wostream *m_ostream;
+			std::map<std::string, std::string> m_headers;
 
-				std::wostream *m_ostream;
-				std::map<std::string, std::string> m_headers;
+			bool m_Disposed = false;
 
-				bool m_Disposed = false;
+		protected:
+			~HttpHeader();
 
-			protected:
+		public:
+			HttpHeader(std::wostream &ostr);
 
-				~HttpHeader();
+			void SetStream(std::wostream &ostr);
 
+			void Dispose();
 
-			public:
-
-				HttpHeader(std::wostream &ostr);
-
-				void SetStream(std::wostream &ostr);
-
-				void Dispose();
-
-				bool Exists(std::string name);
-				void Add(std::string name, std::string content);
-				void Send();
-				void Clear();
+			bool Exists(std::string name);
+			void Add(std::string name, std::string content);
+			void Send();
+			void Clear();
 		};
-	}
+	} // namespace http
 
-}
+} // namespace htmlCplusplus
 
 #endif

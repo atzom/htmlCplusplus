@@ -4,7 +4,7 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	htmlCplusplus::Page page(std::wcout, "");
+    htmlCplusplus::Page page(std::wcout, "");
 
     htmlCplusplus::Tag *h1 = new htmlCplusplus::Tag("h1", "htmlCplusplus Utility for C++", true);
     htmlCplusplus::Tag *p = new htmlCplusplus::Tag("p");
@@ -20,9 +20,9 @@ int main(int argc, char **argv)
     b->AddAttribute("style", "color: red;", false);
 
     b->AddTag(new htmlCplusplus::Tag("i", "Hello ", true));
-    b->AddTag("u","world", true);
-    b->AddTag("del","written", true);
-    b->AddTag("ins","from ", true);
+    b->AddTag("u", "world", true);
+    b->AddTag("del", "written", true);
+    b->AddTag("ins", "from ", true);
 
     btn->AddAttribute("onclick", "callme(); return false;", false);
     b->AddTag(btn);
@@ -41,6 +41,5 @@ int main(int argc, char **argv)
     page.BodyAdd(textarea);
     page.Render();
 
-
-	return 0;
+    return 0;
 }

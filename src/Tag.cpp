@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #include "Tag.h"
 
 #include <iostream>
@@ -36,13 +35,11 @@
 
 using namespace std;
 
-
-
 namespace htmlCplusplus
 {
 
-#ifdef TRACE_POINTERS    
-    std::set<uintptr_t> * Tag::s_htmlTags = new std::set<uintptr_t>();
+#ifdef TRACE_POINTERS
+    std::set<uintptr_t> *Tag::s_htmlTags = new std::set<uintptr_t>();
 #endif
 
     Tag::Tag()
@@ -65,18 +62,18 @@ namespace htmlCplusplus
     }
 
     Tag::Tag(string name, bool closeTag)
-	{
+    {
         m_ostream = &std::wcout;
-		m_name = HtmlString::RemoveInvalid(name);
+        m_name = HtmlString::RemoveInvalid(name);
         m_content = L"";
 
         m_closeTag = closeTag;
-	}
+    }
 
-	Tag::Tag(string name, string content, bool escapeChars, bool closeTag)
-	{
+    Tag::Tag(string name, string content, bool escapeChars, bool closeTag)
+    {
         m_ostream = &std::wcout;
-		m_name = HtmlString::RemoveInvalid(name);
+        m_name = HtmlString::RemoveInvalid(name);
 
         if (escapeChars)
             m_content = HtmlString::Escape(HtmlString::ToWString(content));
@@ -84,12 +81,12 @@ namespace htmlCplusplus
             m_content = HtmlString::ToWString(content);
 
         m_closeTag = closeTag;
-	}
+    }
 
-	Tag::Tag(string name, wstring content, bool escapeChars, bool closeTag)
-	{
+    Tag::Tag(string name, wstring content, bool escapeChars, bool closeTag)
+    {
         m_ostream = &std::wcout;
-		m_name = HtmlString::RemoveInvalid(name);
+        m_name = HtmlString::RemoveInvalid(name);
 
         if (escapeChars)
             m_content = HtmlString::Escape(content);
@@ -97,7 +94,7 @@ namespace htmlCplusplus
             m_content.assign(content);
 
         m_closeTag = closeTag;
-	}
+    }
 
     void Tag::SetStream(std::wostream &ostr)
     {
@@ -149,7 +146,7 @@ namespace htmlCplusplus
         m_ContentPrefixNewLine = prefixNewLine;
         m_ContentSuffixNewLine = suffixNewLine;
     }
- 
+
     void Tag::AddAttribute(string name, string content, bool escapeChars)
     {
         AddAttribute(name, HtmlString::ToWString(content), escapeChars);
@@ -167,7 +164,6 @@ namespace htmlCplusplus
     {
         m_properties.clear();
     }
-
 
     void Tag::AddTag(Tag *tag)
     {
@@ -192,9 +188,8 @@ namespace htmlCplusplus
         tag->SetStream(*m_ostream);
         tag->SetBeautifier(m_Beautify);
 
-        m_otherTags.push_back(tag); 
+        m_otherTags.push_back(tag);
     }
-
 
     void Tag::Render(Identation identation)
     {
@@ -212,7 +207,7 @@ namespace htmlCplusplus
             (*m_ostream) << L"\"";
 
             iter++;
-        } 
+        }
 
         (*m_ostream) << L">";
 
@@ -220,7 +215,7 @@ namespace htmlCplusplus
         {
             for (std::list<Tag *>::iterator iter = m_otherTags.begin(); iter != m_otherTags.end(); iter++)
             {
-                (*iter)->Render((Identation) { identation.Ident, identation.IdentNumber, identation.Level + 1 }); 
+                (*iter)->Render((Identation){identation.Ident, identation.IdentNumber, identation.Level + 1});
             }
         }
 
@@ -229,7 +224,7 @@ namespace htmlCplusplus
             if ((m_ContentPrefixNewLine) || (m_ContentSuffixNewLine))
             {
                 if (m_ContentPrefixNewLine)
-                    (*m_ostream) << std::endl; 
+                    (*m_ostream) << std::endl;
 
                 (*m_ostream) << m_content;
 
@@ -238,12 +233,11 @@ namespace htmlCplusplus
 
                 if (m_Beautify != NULL)
                     m_Beautify->RenderIdentation(m_ostream, identation);
-
             }
             else
                 (*m_ostream) << m_content;
         }
-        else 
+        else
         {
             if (m_Beautify != NULL)
                 m_Beautify->RenderIdentation(m_ostream, identation);
@@ -255,20 +249,20 @@ namespace htmlCplusplus
         (*m_ostream).flush();
     }
 
-	Tag::~Tag()
-	{
-        for(std::list<Tag *>::iterator iter = m_otherTags.begin(); iter != m_otherTags.end(); iter++)
+    Tag::~Tag()
+    {
+        for (std::list<Tag *>::iterator iter = m_otherTags.begin(); iter != m_otherTags.end(); iter++)
         {
             (*iter)->Dispose();
         }
 
         m_otherTags.clear();
         m_properties.clear();
-	}
+    }
 
     void Tag::Dispose()
     {
-        if (!m_Disposed) 
+        if (!m_Disposed)
         {
             m_Disposed = false;
 
@@ -276,83 +270,76 @@ namespace htmlCplusplus
         }
     }
 
-
-
 #ifdef TRACE_POINTERS
 
-            void * Tag::operator new(size_t size)
-            {
-                Tag *newObj = ::new Tag();
+    void *Tag::operator new(size_t size)
+    {
+        Tag *newObj = ::new Tag();
 
-                uintptr_t addr = reinterpret_cast<uintptr_t>(newObj);
+        uintptr_t addr = reinterpret_cast<uintptr_t>(newObj);
 
-                s_htmlTags->insert(addr);
+        s_htmlTags->insert(addr);
 
-                return newObj;
-            }
+        return newObj;
+    }
 
-            void * Tag::operator new(size_t size, std::wostream &ostr)
-            {
-                Tag *newObj = ::new Tag(ostr);
+    void *Tag::operator new(size_t size, std::wostream &ostr)
+    {
+        Tag *newObj = ::new Tag(ostr);
 
-                uintptr_t addr = reinterpret_cast<uintptr_t>(newObj);
+        uintptr_t addr = reinterpret_cast<uintptr_t>(newObj);
 
-                s_htmlTags->insert(addr);
+        s_htmlTags->insert(addr);
 
-                return newObj;
-            }
+        return newObj;
+    }
 
+    void *Tag::operator new[](size_t size, std::wostream &ostr)
+    {
+        Tag *newObj = ::new Tag[size];
 
-            void * Tag::operator new[](size_t size, std::wostream &ostr)
-            {
-                Tag *newObj = ::new Tag[size];
+        uintptr_t addr = reinterpret_cast<uintptr_t>(newObj);
 
-                uintptr_t addr = reinterpret_cast<uintptr_t>(newObj);
+        for (int idx = 0; idx < size; idx++)
+            newObj[idx].SetStream(ostr);
 
-                for (int idx = 0; idx < size; idx++)
-                    newObj[idx].SetStream(ostr);
+        s_htmlTags->insert(addr);
 
-                s_htmlTags->insert(addr);
+        return newObj;
+    }
 
-                return newObj;
-            }
+    void Tag::operator delete(void *p)
+    {
+        uintptr_t addr = reinterpret_cast<uintptr_t>(p);
+        std::set<uintptr_t>::iterator it = s_htmlTags->find(addr);
 
+        if (it != s_htmlTags->end())
+        {
+            ::operator delete(p);
 
-            void Tag::operator delete(void *p)
-            {
-                uintptr_t addr = reinterpret_cast<uintptr_t>(p);
-                std::set<uintptr_t>::iterator it = s_htmlTags->find(addr);
+            s_htmlTags->erase(it);
+        }
+    }
 
-                if (it != s_htmlTags->end())
-                {
-                    ::operator delete(p);
+    void Tag::operator delete[](void *p)
+    {
+        uintptr_t addr = reinterpret_cast<uintptr_t>(p);
+        std::set<uintptr_t>::iterator it = s_htmlTags->find(addr);
 
-                    s_htmlTags->erase(it);
-                }
+        if (it != s_htmlTags->end())
+        {
+            ::operator delete[](p);
 
-            }
+            s_htmlTags->erase(it);
+        }
+    }
 
-            void Tag::operator delete[](void *p)
-            {
-                uintptr_t addr = reinterpret_cast<uintptr_t>(p);
-                std::set<uintptr_t>::iterator it = s_htmlTags->find(addr);
+    std::size_t Tag::TagsCount()
+    {
+        size_t count = s_htmlTags->size();
 
-                if (it != s_htmlTags->end())
-                {
-                    ::operator delete[](p);
-                    
-                    s_htmlTags->erase(it);
-                }
-            }
-
-            std::size_t Tag::TagsCount()
-            {
-                size_t count = s_htmlTags->size();
-
-                return count;
-            }
+        return count;
+    }
 #endif
 
-
-}
-
+} // namespace htmlCplusplus

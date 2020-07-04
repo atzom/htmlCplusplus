@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #ifndef _html_Tag
 #define _html_Tag
 
@@ -48,82 +47,79 @@
 
 namespace htmlCplusplus
 {
-	class Tag
-	{
+    class Tag
+    {
         friend class Page;
         friend class HtmlHead;
         friend class HtmlBody;
 
-        private:
-
+    private:
 #ifdef TRACE_POINTERS
-            static std::set<uintptr_t> *s_htmlTags;
+        static std::set<uintptr_t> *s_htmlTags;
 #endif
-            bool m_Disposed = false;
+        bool m_Disposed = false;
 
-            std::wostream *m_ostream;
+        std::wostream *m_ostream;
 
-            IHtmlBeautify *m_Beautify = NULL;
+        IHtmlBeautify *m_Beautify = NULL;
 
-            HtmlString m_htmlStr;
+        HtmlString m_htmlStr;
 
-            std::list<Tag *> m_otherTags;
-            std::map<std::string, std::wstring> m_properties;
+        std::list<Tag *> m_otherTags;
+        std::map<std::string, std::wstring> m_properties;
 
-			std::string m_name;
-            std::wstring m_content;
+        std::string m_name;
+        std::wstring m_content;
 
-            bool m_ContentPrefixNewLine = false;
-            bool m_ContentSuffixNewLine = false;
+        bool m_ContentPrefixNewLine = false;
+        bool m_ContentSuffixNewLine = false;
 
-            bool m_closeTag = true;
+        bool m_closeTag = true;
 
-        protected:
-            ~Tag();
+    protected:
+        ~Tag();
 
-            void Dispose();
+        void Dispose();
 
-		public:
-            Tag();
-            Tag(std::wostream &ostr);
-			Tag(std::string name, bool closeTag = true);
-			Tag(std::string name, std::string content, bool escapeChars, bool closeTag = true);
-			Tag(std::string name, std::wstring content, bool escapeChars, bool closeTag = true);
+    public:
+        Tag();
+        Tag(std::wostream &ostr);
+        Tag(std::string name, bool closeTag = true);
+        Tag(std::string name, std::string content, bool escapeChars, bool closeTag = true);
+        Tag(std::string name, std::wstring content, bool escapeChars, bool closeTag = true);
 
-            void SetStream(std::wostream &ostr);
-            void SetBeautifier(IHtmlBeautify *beautify);
+        void SetStream(std::wostream &ostr);
+        void SetBeautifier(IHtmlBeautify *beautify);
 
-            void SetName(std::string name, bool closeTag = true);
-            std::string GetName() { return m_name; }
+        void SetName(std::string name, bool closeTag = true);
+        std::string GetName() { return m_name; }
 
-            void SetContent(std::string content, bool escapeChars);
-            void SetContent(std::wstring content, bool escapeChars);
-            void SetContentNewLines(bool prefixNewLine, bool suffixNewLine);
+        void SetContent(std::string content, bool escapeChars);
+        void SetContent(std::wstring content, bool escapeChars);
+        void SetContentNewLines(bool prefixNewLine, bool suffixNewLine);
 
-            void AddAttribute(std::string name, std::string content, bool escapeChars);
-            void AddAttribute(std::string name, std::wstring content, bool escapeChars);
-            void ClearAttributes();
+        void AddAttribute(std::string name, std::string content, bool escapeChars);
+        void AddAttribute(std::string name, std::wstring content, bool escapeChars);
+        void ClearAttributes();
 
-            void AddTag(Tag *tag);
-            void AddTag(std::string name, std::string content, bool escapeChars, bool closeTag = true);
-            void AddTag(std::string name, std::wstring content, bool escapeChars, bool closeTag = true);
+        void AddTag(Tag *tag);
+        void AddTag(std::string name, std::string content, bool escapeChars, bool closeTag = true);
+        void AddTag(std::string name, std::wstring content, bool escapeChars, bool closeTag = true);
 
-            void Render(Identation identation);
-
+        void Render(Identation identation);
 
 #ifdef TRACE_POINTERS
 
-            void * operator new(size_t size);
-            void * operator new(size_t size, std::wostream &ostr);
-            void * operator new[](size_t size, std::wostream &ostr);
+        void *operator new(size_t size);
+        void *operator new(size_t size, std::wostream &ostr);
+        void *operator new[](size_t size, std::wostream &ostr);
 
-            void operator delete(void *p);
-            void operator delete[](void *p);
+        void operator delete(void *p);
+        void operator delete[](void *p);
 
-            static std::size_t TagsCount();
+        static std::size_t TagsCount();
 #endif
-
-	};
-}
+    };
+} // namespace htmlCplusplus
 
 #endif

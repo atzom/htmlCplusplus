@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #include "HtmlHead.h"
 #include "HtmlString.h"
 #include "Tag.h"
@@ -112,7 +111,6 @@ namespace htmlCplusplus
         {
             tag->AddAttribute(attrIter->first, attrIter->second, true);
         }
- 
     }
 
     void HtmlHead::AddStyle(std::wstring style)
@@ -174,7 +172,7 @@ namespace htmlCplusplus
 
         while (iter != m_tags.end())
         {
-            iter->second->Render((Identation){ identation.Ident, identation.IdentNumber, identation.Level + 1 });
+            iter->second->Render((Identation){identation.Ident, identation.IdentNumber, identation.Level + 1});
             iter++;
         }
 
@@ -191,4 +189,4 @@ namespace htmlCplusplus
             delete this;
         }
     }
-}
+} // namespace htmlCplusplus

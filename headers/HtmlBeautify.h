@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #ifndef _html_Beautify
 #define _html_Beautify
 
@@ -40,22 +39,21 @@
 namespace htmlCplusplus
 {
 
-    class HtmlBeautify: public IHtmlBeautify
+    class HtmlBeautify : public IHtmlBeautify
     {
-        private:
-            bool m_Disposed = false;
+    private:
+        bool m_Disposed = false;
 
-        protected:
-            ~HtmlBeautify();
+    protected:
+        ~HtmlBeautify();
 
-        public:
+    public:
+        HtmlBeautify();
 
-            HtmlBeautify();
-
-            virtual void RenderIdentation(std::wostream *m_ostream, Identation identation);
-            virtual void Dispose();
+        virtual void RenderIdentation(std::wostream *m_ostream, Identation identation);
+        virtual void Dispose();
     };
 
-}
+} // namespace htmlCplusplus
 
 #endif

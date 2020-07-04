@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #ifndef _html_PageBody
 #define _html_PageBody
 
@@ -40,22 +39,22 @@ namespace htmlCplusplus
 {
     class HtmlBody
     {
-        private:
-            std::list<Tag *> m_Tags;
+    private:
+        std::list<Tag *> m_Tags;
 
-            IHtmlBeautify *m_Beautify = NULL;
+        IHtmlBeautify *m_Beautify = NULL;
 
-        public:
-            HtmlBody();
-            ~HtmlBody();
+    public:
+        HtmlBody();
+        ~HtmlBody();
 
-            void SetBeautifier(IHtmlBeautify *beautify);
+        void SetBeautifier(IHtmlBeautify *beautify);
 
-            void Add(htmlCplusplus::Tag *tag);
+        void Add(htmlCplusplus::Tag *tag);
 
-            void Render(Identation identation);
+        void Render(Identation identation);
     };
 
-}
+} // namespace htmlCplusplus
 
 #endif

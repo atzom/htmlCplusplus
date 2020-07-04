@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #ifndef _html_HtmlHeaders
 #define _html_HtmlHeaders
 
@@ -44,46 +43,41 @@
 
 namespace htmlCplusplus
 {
-    class HtmlHead: public IHtmlHead
+    class HtmlHead : public IHtmlHead
     {
-        private:
+    private:
+        std::wostream *m_ostream;
 
-            std::wostream *m_ostream;
+        IHtmlBeautify *m_Beautify = NULL;
 
-            IHtmlBeautify *m_Beautify = NULL;
+        std::map<std::string, htmlCplusplus::Tag *> m_tags;
 
-            std::map<std::string, htmlCplusplus::Tag *> m_tags;
+        bool m_Disposed = false;
 
-            bool m_Disposed = false;
+    protected:
+        ~HtmlHead();
 
+        void RenderIdentation(std::wostream *ostr, Identation identation);
 
-        protected:
-            
-            ~HtmlHead();
+    public:
+        HtmlHead(std::wostream &stream);
 
-            void RenderIdentation(std::wostream *ostr, Identation identation);
+        void Dispose();
 
-    
-        public:
+        void SetStream(std::wostream &ostr);
+        void SetBeautifier(IHtmlBeautify *beautify);
 
-            HtmlHead(std::wostream &stream);
+        void SetTitle(std::wstring title);
+        void SetBase(std::map<std::string, std::wstring> attributes);
 
-            void Dispose();
+        void AddStyle(std::wstring style);
+        void AddScript(std::wstring script);
 
-            void SetStream(std::wostream &ostr);
-            void SetBeautifier(IHtmlBeautify *beautify);
+        void AddLink(std::map<std::string, std::wstring> attributes);
+        void AddMeta(std::map<std::string, std::wstring> attributes);
 
-            void SetTitle(std::wstring title);
-            void SetBase(std::map<std::string, std::wstring> attributes);
-
-            void AddStyle(std::wstring style);
-            void AddScript(std::wstring script);
-
-            void AddLink(std::map<std::string, std::wstring> attributes);
-            void AddMeta(std::map<std::string, std::wstring> attributes);
-
-            void Render(Identation identation);
+        void Render(Identation identation);
     };
-}
+} // namespace htmlCplusplus
 
 #endif

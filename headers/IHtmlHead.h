@@ -38,31 +38,27 @@ namespace htmlCplusplus
 {
     class IHtmlHead
     {
-        protected:
+    protected:
+        virtual void RenderIdentation(std::wostream *ostr, Identation identation) = 0;
 
-            virtual void RenderIdentation(std::wostream *ostr, Identation identation) = 0;
+    public:
+        virtual void Dispose() = 0;
 
-        
-        public:
+        virtual void SetStream(std::wostream &ostr) = 0;
+        virtual void SetBeautifier(IHtmlBeautify *beautify) = 0;
 
-            virtual void Dispose() = 0;
+        virtual void SetTitle(std::wstring title) = 0;
+        virtual void SetBase(std::map<std::string, std::wstring> attributes) = 0;
 
-            virtual void SetStream(std::wostream &ostr) = 0;
-            virtual void SetBeautifier(IHtmlBeautify *beautify) = 0;
+        virtual void AddStyle(std::wstring style) = 0;
+        virtual void AddScript(std::wstring script) = 0;
 
-            virtual void SetTitle(std::wstring title) = 0;
-            virtual void SetBase(std::map<std::string, std::wstring> attributes) = 0;
+        virtual void AddLink(std::map<std::string, std::wstring> attributes) = 0;
+        virtual void AddMeta(std::map<std::string, std::wstring> attributes) = 0;
 
-            virtual void AddStyle(std::wstring style) = 0;
-            virtual void AddScript(std::wstring script) = 0;
-
-            virtual void AddLink(std::map<std::string, std::wstring> attributes) = 0;
-            virtual void AddMeta(std::map<std::string, std::wstring> attributes) = 0;
-
-            virtual void Render(Identation identation) = 0;
-
+        virtual void Render(Identation identation) = 0;
     };
 
-}
+} // namespace htmlCplusplus
 
 #endif

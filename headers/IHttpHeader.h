@@ -33,22 +33,22 @@
 
 namespace htmlCplusplus
 {
-	
-	namespace http
-	{
+
+    namespace http
+    {
         class IHttpHeader
         {
-            public:
-                virtual void Dispose() = 0;
+        public:
+            virtual void Dispose() = 0;
 
-                virtual void SetStream(std::wostream &ostr) = 0;
+            virtual void SetStream(std::wostream &ostr) = 0;
 
-                virtual bool Exists(std::string name) = 0;
-				virtual void Add(std::string name, std::string content) = 0;
-				virtual void Send() = 0;
-				virtual void Clear() = 0;
+            virtual bool Exists(std::string name) = 0;
+            virtual void Add(std::string name, std::string content) = 0;
+            virtual void Send() = 0;
+            virtual void Clear() = 0;
         };
-    }
-}
+    } // namespace http
+} // namespace htmlCplusplus
 
 #endif

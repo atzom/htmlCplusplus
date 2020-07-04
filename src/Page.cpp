@@ -28,7 +28,6 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 #include "Page.h"
 #include "Tag.h"
 
@@ -43,26 +42,26 @@ using namespace std;
 
 namespace htmlCplusplus
 {
-	Page::Page(std::wostream &ostr, std::string contentType, bool autoRender, Identation identation)
-	{
+    Page::Page(std::wostream &ostr, std::string contentType, bool autoRender, Identation identation)
+    {
         m_ostream = &ostr;
 
         m_autoRender = autoRender;
 
         m_Identation = identation;
 
-		m_httpHeadersSent = false;
+        m_httpHeadersSent = false;
 
         if (contentType.length() > 0)
         {
             m_httpHeaders = new http::HttpHeader(ostr);
-		    m_httpHeaders->Add("Content-Type", contentType);
+            m_httpHeaders->Add("Content-Type", contentType);
         }
         else
         {
             m_httpHeaders = NULL;
         }
-        
+
         m_Beautify = new HtmlBeautify();
 
         m_htmlHead = new htmlCplusplus::HtmlHead(ostr);
@@ -76,17 +75,17 @@ namespace htmlCplusplus
             RenderHtmlHeaders();
             RenderBodyStart();
         }
-	}
+    }
 
     Page::Page(std::wostream &ostr, http::IHttpHeader *httpHeaders, bool autoRender, Identation identation)
-	{
+    {
         m_ostream = &ostr;
 
         m_autoRender = autoRender;
 
         m_Identation = identation;
 
-		m_httpHeadersSent = false;
+        m_httpHeadersSent = false;
         m_httpHeaders = httpHeaders;
 
         if (m_httpHeaders != NULL)
@@ -97,7 +96,7 @@ namespace htmlCplusplus
         m_Beautify = new HtmlBeautify();
 
         m_htmlHead = new htmlCplusplus::HtmlHead(ostr);
-        m_htmlHead->SetBeautifier(m_Beautify);        
+        m_htmlHead->SetBeautifier(m_Beautify);
 
         if (autoRender)
         {
@@ -107,17 +106,17 @@ namespace htmlCplusplus
             RenderHtmlHeaders();
             RenderBodyStart();
         }
-	}
+    }
 
     Page::Page(std::wostream &ostr, IHtmlHead *htmlHead, bool autoRender, Identation identation)
-	{
+    {
         m_ostream = &ostr;
 
         m_autoRender = autoRender;
 
         m_Identation = identation;
 
-		m_httpHeadersSent = false;
+        m_httpHeadersSent = false;
         m_httpHeaders = NULL;
 
         m_Beautify = new HtmlBeautify();
@@ -138,17 +137,17 @@ namespace htmlCplusplus
             RenderHtmlHeaders();
             RenderBodyStart();
         }
-	}
+    }
 
     Page::Page(std::wostream &ostr, http::IHttpHeader *httpHeaders, IHtmlHead *htmlHead, bool autoRender, Identation identation)
-	{
+    {
         m_ostream = &ostr;
 
         m_autoRender = autoRender;
 
         m_Identation = identation;
 
-		m_httpHeadersSent = false;
+        m_httpHeadersSent = false;
         m_httpHeaders = httpHeaders;
 
         if (m_httpHeaders != NULL)
@@ -174,17 +173,17 @@ namespace htmlCplusplus
             RenderHtmlHeaders();
             RenderBodyStart();
         }
-	}
+    }
 
     Page::Page(std::wostream &ostr, http::IHttpHeader *httpHeaders, IHtmlHead *htmlHead, IHtmlBeautify *beautify, bool autoRender, Identation identation)
-	{
+    {
         m_ostream = &ostr;
 
         m_autoRender = autoRender;
 
         m_Identation = identation;
 
-		m_httpHeadersSent = false;
+        m_httpHeadersSent = false;
         m_httpHeaders = httpHeaders;
 
         if (m_httpHeaders != NULL)
@@ -210,10 +209,10 @@ namespace htmlCplusplus
             RenderHtmlHeaders();
             RenderBodyStart();
         }
-	}
+    }
 
-	Page::~Page()
-	{
+    Page::~Page()
+    {
         if (m_autoRender)
         {
             RenderBodyEnd();
@@ -249,7 +248,7 @@ namespace htmlCplusplus
     void Page::RenderHtmlHeaders()
     {
         if (m_htmlHead)
-            m_htmlHead->Render((Identation){ m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level });
+            m_htmlHead->Render((Identation){m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level});
     }
 
     void Page::RenderBodyStart()
@@ -263,7 +262,7 @@ namespace htmlCplusplus
     void Page::RenderBody()
     {
         m_htmlBody.SetBeautifier(m_Beautify);
-        m_htmlBody.Render((Identation){m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level });
+        m_htmlBody.Render((Identation){m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level});
     }
 
     void Page::RenderBodyEnd()
@@ -293,14 +292,13 @@ namespace htmlCplusplus
 
     // ------ []
 
-
     // ------ [ Http Headers]
 
-	void Page::HttpHeadersAdd(string name, string content)
-	{
+    void Page::HttpHeadersAdd(string name, string content)
+    {
         if (m_httpHeaders)
-		    m_httpHeaders->Add(name, content);
-	}
+            m_httpHeaders->Add(name, content);
+    }
 
     void Page::HttpHeadersClear()
     {
@@ -308,16 +306,16 @@ namespace htmlCplusplus
             m_httpHeaders->Clear();
     }
 
-	void Page::HttpHeadersSend()
-	{
-		if ((!m_httpHeadersSent) && (m_httpHeaders))
-		{
-			m_httpHeaders->Send();
+    void Page::HttpHeadersSend()
+    {
+        if ((!m_httpHeadersSent) && (m_httpHeaders))
+        {
+            m_httpHeaders->Send();
 
-			m_httpHeadersSent = true;
-		}
-	}
+            m_httpHeadersSent = true;
+        }
+    }
 
     // ------ []
 
-}
+} // namespace htmlCplusplus
