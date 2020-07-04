@@ -16,15 +16,20 @@ folder.
 Compiling the library:
 ----------------------
 
+```
 $ make HtmlClean
-$ make Html
-
+$ make HtmlLib
+```
 
 
 Compiling the Examples:
 -----------------------
+
+```
 $ cd examples
 $ make examples
+```
+
 
 Currently the library supports the basics for the creation of a Html page with the following features included:
 
