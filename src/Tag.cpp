@@ -165,15 +165,60 @@ namespace htmlCplusplus
         m_properties.clear();
     }
 
-    void Tag::AddTag(Tag *tag)
+    void Tag::SetParent(Tag *tag)
     {
         if (tag != NULL)
         {
+            m_Parent = tag;
+        }
+    }
+
+    void Tag::RemoveParent()
+    {
+        m_Parent = NULL;
+    }
+
+    void Tag::AddChild(Tag *tag)
+    {
+        if (tag != NULL)
+        {
+            tag->SetParent(this);
             tag->SetStream(*m_ostream);
             tag->SetBeautifier(m_Beautify);
 
             m_otherTags.push_back(tag);
         }
+    }
+
+    void Tag::RemoveChild(Tag *tag)
+    {
+        if (tag != NULL)
+        {
+            list<Tag *> range { tag };
+
+            std::list<Tag *>::iterator iter = std::find_first_of(m_otherTags.begin(), m_otherTags.end(), range.begin(), range.end(), [](Tag *left, Tag *right)-> bool 
+            {
+                uintptr_t leftAddr, rightAddr;
+
+                leftAddr = reinterpret_cast<uintptr_t>(left);
+                rightAddr = reinterpret_cast<uintptr_t>(right);
+
+                return leftAddr == rightAddr;
+            });
+
+            if (iter != m_otherTags.end())
+            {
+                (*iter)->RemoveParent();
+                m_otherTags.erase(iter);
+
+                tag->Dispose();
+            }
+        }
+    }
+
+    void Tag::AddTag(Tag *tag)
+    {
+        AddChild(tag);
     }
 
     void Tag::AddTag(string name, string content, bool escapeChars, bool closeTag)
@@ -183,12 +228,12 @@ namespace htmlCplusplus
 
     void Tag::AddTag(string name, wstring content, bool escapeChars, bool closeTag)
     {
-        Tag *tag = new Tag(name, content, escapeChars, closeTag);
+        AddChild(new Tag(name, content, escapeChars, closeTag));
+    }
 
-        tag->SetStream(*m_ostream);
-        tag->SetBeautifier(m_Beautify);
-
-        m_otherTags.push_back(tag);
+    void Tag::RemoveTag(Tag *tag)
+    {
+        RemoveChild(tag);
     }
 
     void Tag::Render(Identation identation)

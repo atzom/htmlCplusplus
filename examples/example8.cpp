@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     htmlCplusplus::HtmlBeautify *beautify = new htmlCplusplus::HtmlBeautify();
     htmlCplusplus::http::HttpHeader *httpHeader = new htmlCplusplus::http::HttpHeader(std::wcout);
     htmlCplusplus::HtmlHead *htmlHead = new htmlCplusplus::HtmlHead(std::wcout);
-    htmlCplusplus::Page page(std::wcout, httpHeader, htmlHead, beautify, false);
+    htmlCplusplus::Page *page = new htmlCplusplus::Page(std::wcout, httpHeader, htmlHead, beautify, false);
 
     httpHeader->Add("Content-Type", "text/html;charset=iso-8859-7");
 
@@ -52,14 +52,18 @@ int main(int argc, char **argv)
 
     p->AddTag(b);
 
+    p->RemoveTag(span);
+
     textarea->AddAttribute("id", "txtArea", false);
     textarea->AddAttribute("cols", "100", false);
     textarea->AddAttribute("rows", "20", false);
 
-    page.BodyAdd(h1);
-    page.BodyAdd(p);
-    page.BodyAdd(textarea);
-    page.Render();
+    page->BodyAdd(h1);
+    page->BodyAdd(p);
+    page->BodyAdd(textarea);
+    page->Render();
+
+    delete page;
 
     return 0;
 }

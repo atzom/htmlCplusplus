@@ -65,6 +65,8 @@ namespace htmlCplusplus
 
         HtmlString m_htmlStr;
 
+        Tag *m_Parent = NULL;
+
         std::list<Tag *> m_otherTags;
         std::map<std::string, std::wstring> m_properties;
 
@@ -79,7 +81,14 @@ namespace htmlCplusplus
     protected:
         ~Tag();
 
+        void SetParent(Tag *tag);
+        void RemoveParent();
+
+        void AddChild(Tag *tag);
+        void RemoveChild(Tag *tag);
+
         void Dispose();
+        
 
     public:
         Tag();
@@ -105,6 +114,7 @@ namespace htmlCplusplus
         void AddTag(Tag *tag);
         void AddTag(std::string name, std::string content, bool escapeChars, bool closeTag = true);
         void AddTag(std::string name, std::wstring content, bool escapeChars, bool closeTag = true);
+        void RemoveTag(Tag *tag);
 
         void Render(Identation identation);
 

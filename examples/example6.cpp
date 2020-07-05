@@ -11,10 +11,11 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
+    auto loc = std::locale("el_GR.utf8");
+
     std::setlocale(LC_ALL, "el_GR.utf8");
-    std::locale::global(std::locale("el_GR.utf8"));
-    std::wcout.imbue(std::locale("el_GR.utf8"));
-    std::wcin.imbue(std::locale("el_GR.utf8"));
+    std::locale::global(loc);
+    std::wcout.imbue(loc);
 
     htmlCplusplus::HtmlBeautify *beautify = new htmlCplusplus::HtmlBeautify();
     htmlCplusplus::http::HttpHeader *httpHeader = new htmlCplusplus::http::HttpHeader(std::wcout);
