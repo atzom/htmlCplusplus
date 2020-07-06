@@ -28,34 +28,17 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _html_PageBody
-#define _html_PageBody
+#ifndef _html_IParent
+#define _html_IParent
 
-#include <list>
-
-#include "ITag.h"
-#include "IParent.h"
+#include "IChild.h"
 
 namespace htmlCplusplus
 {
-    class HtmlBody: IParent
+    class IParent
     {
-    private:
-        std::list<ITag *> m_Tags;
-
-        IHtmlBeautify *m_Beautify = NULL;
-
     public:
-        HtmlBody();
-        ~HtmlBody();
-
-        void SetBeautifier(IHtmlBeautify *beautify);
-
-        void Add(ITag *tag);
-
-        void RemoveChild(IChild *child, bool dispose);
-
-        void Render(Identation identation);
+        virtual void RemoveChild(IChild *child, bool dispose) = 0;
     };
 
 } // namespace htmlCplusplus

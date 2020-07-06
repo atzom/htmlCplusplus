@@ -42,18 +42,18 @@
 #include <map>
 #include <list>
 
+#include "ITag.h"
+
 #include "HtmlBeautify.h"
 #include "HtmlString.h"
 
 namespace htmlCplusplus
 {
-    class Tag
+    class Tag: public ITag
     {
-        friend class Page;
-        friend class HtmlHead;
-        friend class HtmlBody;
 
     private:
+
 #ifdef TRACE_POINTERS
         static std::set<uintptr_t> *s_htmlTags;
 #endif
@@ -65,9 +65,9 @@ namespace htmlCplusplus
 
         HtmlString m_htmlStr;
 
-        Tag *m_Parent = NULL;
+        IParent *m_Parent = NULL;
 
-        std::list<Tag *> m_otherTags;
+        std::list<ITag *> m_otherTags;
         std::map<std::string, std::wstring> m_properties;
 
         std::string m_name;
@@ -81,14 +81,7 @@ namespace htmlCplusplus
     protected:
         ~Tag();
 
-        void SetParent(Tag *tag);
-        void RemoveParent();
-
-        void AddChild(Tag *tag);
-        void RemoveChild(Tag *tag);
-
-        void Dispose();
-        
+        void AddChild(ITag *tag);
 
     public:
         Tag();
@@ -96,6 +89,12 @@ namespace htmlCplusplus
         Tag(std::string name, bool closeTag = true);
         Tag(std::string name, std::string content, bool escapeChars, bool closeTag = true);
         Tag(std::string name, std::wstring content, bool escapeChars, bool closeTag = true);
+
+        void SetParent(IParent *parent);
+        void RemoveParent();
+        void RemoveChild(IChild *tag, bool dispose = true);
+
+        void Dispose();
 
         void SetStream(std::wostream &ostr);
         void SetBeautifier(IHtmlBeautify *beautify);
@@ -111,10 +110,10 @@ namespace htmlCplusplus
         void AddAttribute(std::string name, std::wstring content, bool escapeChars);
         void ClearAttributes();
 
-        void AddTag(Tag *tag);
+        void AddTag(ITag *tag);
         void AddTag(std::string name, std::string content, bool escapeChars, bool closeTag = true);
         void AddTag(std::string name, std::wstring content, bool escapeChars, bool closeTag = true);
-        void RemoveTag(Tag *tag);
+        void RemoveTag(ITag *tag);
 
         void Render(Identation identation);
 
@@ -130,6 +129,7 @@ namespace htmlCplusplus
         static std::size_t TagsCount();
 #endif
     };
+
 } // namespace htmlCplusplus
 
 #endif

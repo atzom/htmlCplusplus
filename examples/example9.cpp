@@ -52,9 +52,6 @@ int main(int argc, char **argv)
 
     p->AddTag(b);
 
-    // Remove the span tag!
-    p->RemoveTag(span);
-
     textarea->AddAttribute("id", "txtArea", false);
     textarea->AddAttribute("cols", "100", false);
     textarea->AddAttribute("rows", "20", false);
@@ -62,6 +59,10 @@ int main(int argc, char **argv)
     page->BodyAdd(h1);
     page->BodyAdd(p);
     page->BodyAdd(textarea);
+
+    // Dispose "p" tag before the page is even rendered!
+    p->Dispose();
+
     page->Render();
 
     delete page;

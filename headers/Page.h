@@ -89,7 +89,7 @@ namespace htmlCplusplus
         void HeadAddLink(std::map<std::string, std::wstring> attributes);
 
         void BodyAdd(string name, string content, bool escapeChars);
-        void BodyAdd(Tag *tag);
+        void BodyAdd(ITag *tag);
 
         void Render();
     };

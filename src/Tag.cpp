@@ -102,7 +102,7 @@ namespace htmlCplusplus
 
         if (m_otherTags.size() > 0)
         {
-            for (std::list<Tag *>::iterator iter = m_otherTags.begin(); iter != m_otherTags.end(); iter++)
+            for (std::list<ITag *>::iterator iter = m_otherTags.begin(); iter != m_otherTags.end(); iter++)
             {
                 (*iter)->SetStream(ostr);
             }
@@ -115,7 +115,7 @@ namespace htmlCplusplus
 
         if (m_otherTags.size() > 0)
         {
-            for (std::list<Tag *>::iterator iter = m_otherTags.begin(); iter != m_otherTags.end(); iter++)
+            for (std::list<ITag *>::iterator iter = m_otherTags.begin(); iter != m_otherTags.end(); iter++)
             {
                 (*iter)->SetBeautifier(m_Beautify);
             }
@@ -165,11 +165,11 @@ namespace htmlCplusplus
         m_properties.clear();
     }
 
-    void Tag::SetParent(Tag *tag)
+    void Tag::SetParent(IParent *parent)
     {
-        if (tag != NULL)
+        if (parent != NULL)
         {
-            m_Parent = tag;
+            m_Parent = parent;
         }
     }
 
@@ -178,11 +178,11 @@ namespace htmlCplusplus
         m_Parent = NULL;
     }
 
-    void Tag::AddChild(Tag *tag)
+    void Tag::AddChild(ITag *tag)
     {
         if (tag != NULL)
         {
-            tag->SetParent(this);
+            tag->SetParent(static_cast<IParent *>(this));
             tag->SetStream(*m_ostream);
             tag->SetBeautifier(m_Beautify);
 
@@ -190,13 +190,15 @@ namespace htmlCplusplus
         }
     }
 
-    void Tag::RemoveChild(Tag *tag)
+    void Tag::RemoveChild(IChild *child, bool dispose)
     {
+        ITag *tag = dynamic_cast<ITag *>(child);
+
         if (tag != NULL)
         {
-            list<Tag *> range { tag };
+            std::list<ITag *> range { tag };
 
-            std::list<Tag *>::iterator iter = std::find_first_of(m_otherTags.begin(), m_otherTags.end(), range.begin(), range.end(), [](Tag *left, Tag *right)-> bool 
+            std::list<ITag *>::iterator iter = std::find_first_of(m_otherTags.begin(), m_otherTags.end(), range.begin(), range.end(), [](ITag *left, ITag *right)-> bool 
             {
                 uintptr_t leftAddr, rightAddr;
 
@@ -208,15 +210,17 @@ namespace htmlCplusplus
 
             if (iter != m_otherTags.end())
             {
-                (*iter)->RemoveParent();
+                child->RemoveParent();
+
                 m_otherTags.erase(iter);
 
-                tag->Dispose();
+                if (dispose)
+                    tag->Dispose();
             }
         }
     }
 
-    void Tag::AddTag(Tag *tag)
+    void Tag::AddTag(ITag *tag)
     {
         AddChild(tag);
     }
@@ -228,10 +232,10 @@ namespace htmlCplusplus
 
     void Tag::AddTag(string name, wstring content, bool escapeChars, bool closeTag)
     {
-        AddChild(new Tag(name, content, escapeChars, closeTag));
+        AddChild(static_cast<ITag *>(new Tag(name, content, escapeChars, closeTag)));
     }
 
-    void Tag::RemoveTag(Tag *tag)
+    void Tag::RemoveTag(ITag *tag)
     {
         RemoveChild(tag);
     }
@@ -258,7 +262,7 @@ namespace htmlCplusplus
 
         if (m_otherTags.size() > 0)
         {
-            for (std::list<Tag *>::iterator iter = m_otherTags.begin(); iter != m_otherTags.end(); iter++)
+            for (std::list<ITag *>::iterator iter = m_otherTags.begin(); iter != m_otherTags.end(); iter++)
             {
                 (*iter)->Render((Identation){identation.Ident, identation.IdentNumber, identation.Level + 1});
             }
@@ -296,9 +300,13 @@ namespace htmlCplusplus
 
     Tag::~Tag()
     {
-        for (std::list<Tag *>::iterator iter = m_otherTags.begin(); iter != m_otherTags.end(); iter++)
+        std::list<ITag *> tags(m_otherTags);
+        std::list<ITag *>::iterator iter = tags.begin();
+
+        while (iter != tags.end())
         {
             (*iter)->Dispose();
+            iter++;
         }
 
         m_otherTags.clear();
@@ -310,6 +318,9 @@ namespace htmlCplusplus
         if (!m_Disposed)
         {
             m_Disposed = false;
+
+            if (m_Parent)
+                m_Parent->RemoveChild(this, false);
 
             delete this;
         }

@@ -28,34 +28,50 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _html_PageBody
-#define _html_PageBody
+#ifndef _html_ITag
+#define _html_ITag
 
+#include <string>
+#include <cstdint>
+#include <set>
+#include <map>
 #include <list>
 
-#include "ITag.h"
+#include "IHtmlBeautify.h"
 #include "IParent.h"
+#include "IChild.h"
 
 namespace htmlCplusplus
 {
-    class HtmlBody: IParent
+    class ITag : public IParent, public IChild
     {
-    private:
-        std::list<ITag *> m_Tags;
-
-        IHtmlBeautify *m_Beautify = NULL;
-
     public:
-        HtmlBody();
-        ~HtmlBody();
+        virtual void Dispose() = 0;
 
-        void SetBeautifier(IHtmlBeautify *beautify);
+        virtual void SetParent(IParent *parent) = 0;
+        virtual void RemoveParent() = 0;
+        virtual void RemoveChild(IChild *child, bool dispose) = 0;
 
-        void Add(ITag *tag);
+        virtual void SetStream(std::wostream &ostr) = 0;
+        virtual void SetBeautifier(IHtmlBeautify *beautify) = 0;
 
-        void RemoveChild(IChild *child, bool dispose);
+        virtual void SetName(std::string name, bool closeTag = true) = 0;
+        virtual std::string GetName() = 0;
 
-        void Render(Identation identation);
+        virtual void SetContent(std::string content, bool escapeChars) = 0;
+        virtual void SetContent(std::wstring content, bool escapeChars) = 0;
+        virtual void SetContentNewLines(bool prefixNewLine, bool suffixNewLine) = 0;
+
+        virtual void AddAttribute(std::string name, std::string content, bool escapeChars) = 0;
+        virtual void AddAttribute(std::string name, std::wstring content, bool escapeChars) = 0;
+        virtual void ClearAttributes() = 0;
+
+        virtual void AddTag(ITag *tag) = 0;
+        virtual void AddTag(std::string name, std::string content, bool escapeChars, bool closeTag = true) = 0;
+        virtual void AddTag(std::string name, std::wstring content, bool escapeChars, bool closeTag = true) = 0;
+        virtual void RemoveTag(ITag *tag) = 0;
+
+        virtual void Render(Identation identation) = 0;
     };
 
 } // namespace htmlCplusplus

@@ -28,6 +28,8 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#include <algorithm>
+
 #include "HtmlBody.h"
 
 namespace htmlCplusplus
@@ -38,17 +40,45 @@ namespace htmlCplusplus
 
     HtmlBody::~HtmlBody()
     {
-        std::list<htmlCplusplus::Tag *>::iterator iter = m_Tags.begin();
+        std::list<ITag *> tags(m_Tags);
+        std::list<ITag *>::iterator iter = tags.begin();
 
-        while (iter != m_Tags.end())
+        while (iter != tags.end())
         {
-            if ((*iter) != NULL)
-                (*iter)->Dispose();
-
+            (*iter)->Dispose();
             iter++;
         }
 
         m_Tags.clear();
+    }
+
+    void HtmlBody::RemoveChild(IChild *child, bool dispose)
+    {
+        ITag *tag = dynamic_cast<ITag *>(child);
+
+        if (tag != NULL)
+        {
+            std::list<ITag *> range{tag};
+
+            std::list<ITag *>::iterator iter = std::find_first_of(m_Tags.begin(), m_Tags.end(), range.begin(), range.end(), [](ITag *left, ITag *right) -> bool {
+                uintptr_t leftAddr, rightAddr;
+
+                leftAddr = reinterpret_cast<uintptr_t>(left);
+                rightAddr = reinterpret_cast<uintptr_t>(right);
+
+                return leftAddr == rightAddr;
+            });
+
+            if (iter != m_Tags.end())
+            {
+                child->RemoveParent();
+
+                m_Tags.erase(iter);
+
+                if (dispose)
+                    tag->Dispose();
+            }
+        }
     }
 
     void HtmlBody::SetBeautifier(IHtmlBeautify *beautify)
@@ -57,17 +87,18 @@ namespace htmlCplusplus
 
         if (m_Tags.size() > 0)
         {
-            for (std::list<htmlCplusplus::Tag *>::iterator iter = m_Tags.begin(); iter != m_Tags.end(); iter++)
+            for (std::list<ITag *>::iterator iter = m_Tags.begin(); iter != m_Tags.end(); iter++)
             {
                 (*iter)->SetBeautifier(m_Beautify);
             }
         }
     }
 
-    void HtmlBody::Add(htmlCplusplus::Tag *tag)
+    void HtmlBody::Add(ITag *tag)
     {
         if (tag != NULL)
         {
+            tag->SetParent(static_cast<IParent *>(this));
             tag->SetBeautifier(m_Beautify);
 
             m_Tags.push_back(tag);
@@ -76,7 +107,7 @@ namespace htmlCplusplus
 
     void HtmlBody::Render(Identation identation)
     {
-        std::list<htmlCplusplus::Tag *>::const_iterator iter = m_Tags.begin();
+        std::list<ITag *>::const_iterator iter = m_Tags.begin();
 
         while (iter != m_Tags.end())
         {

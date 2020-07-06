@@ -32,6 +32,7 @@
 #include "Tag.h"
 
 #include <iostream>
+#include "IParent.h"
 
 using namespace std;
 
@@ -44,19 +45,16 @@ namespace htmlCplusplus
         tag->SetName(name);
         tag->SetContent(content, escapeChars);
 
-        if (tag != NULL)
+        if (m_autoRender)
         {
-            if (m_autoRender)
-            {
-                tag->Render((Identation){m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level});
-                tag->Dispose();
-            }
-            else
-                m_htmlBody.Add(tag);
+            tag->Render((Identation){m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level});
+            tag->Dispose();
         }
+        else
+            m_htmlBody.Add(tag);
     }
 
-    void Page::BodyAdd(Tag *tag)
+    void Page::BodyAdd(ITag *tag)
     {
         if (tag != NULL)
         {

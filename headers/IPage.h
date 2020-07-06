@@ -35,7 +35,7 @@
 #include <string>
 #include <map>
 
-#include "Tag.h"
+#include "ITag.h"
 
 namespace htmlCplusplus
 {
@@ -52,7 +52,7 @@ namespace htmlCplusplus
         virtual void HeadAddLink(std::map<std::string, std::wstring> attributes) = 0;
 
         virtual void BodyAdd(std::string name, std::string content, bool escapeChars) = 0;
-        virtual void BodyAdd(Tag *tag) = 0;
+        virtual void BodyAdd(ITag *tag) = 0;
 
         virtual void Render() = 0;
     };

@@ -41,7 +41,7 @@ namespace htmlCplusplus
 
     HtmlHead::~HtmlHead()
     {
-        std::map<std::string, htmlCplusplus::Tag *>::iterator iter = m_tags.begin();
+        std::map<std::string, ITag *>::iterator iter = m_tags.begin();
 
         while (iter != m_tags.end())
         {
@@ -71,7 +71,7 @@ namespace htmlCplusplus
 
     void HtmlHead::SetTitle(std::wstring title)
     {
-        std::map<std::string, Tag *>::iterator iter = m_tags.find("title");
+        std::map<std::string, ITag *>::iterator iter = m_tags.find("title");
 
         if (iter != m_tags.end())
         {
@@ -90,8 +90,8 @@ namespace htmlCplusplus
 
     void HtmlHead::SetBase(std::map<std::string, std::wstring> attributes)
     {
-        std::map<std::string, Tag *>::iterator iter = m_tags.find("base");
-        Tag *tag;
+        std::map<std::string, ITag *>::iterator iter = m_tags.find("base");
+        ITag *tag;
 
         if (iter != m_tags.end())
         {
@@ -165,7 +165,7 @@ namespace htmlCplusplus
 
     void HtmlHead::Render(Identation identation)
     {
-        std::map<std::string, htmlCplusplus::Tag *>::iterator iter = m_tags.begin();
+        std::map<std::string, ITag *>::iterator iter = m_tags.begin();
 
         RenderIdentation(m_ostream, identation);
         (*m_ostream) << L"<head>";

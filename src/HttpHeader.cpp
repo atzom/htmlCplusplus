@@ -68,7 +68,7 @@ namespace htmlCplusplus
 
 			for (iter = m_headers.begin(); iter != m_headers.end(); ++iter)
 			{
-				(*m_ostream) << htmlCplusplus::HtmlString::ToWString(iter->first) << L":" << htmlCplusplus::HtmlString::ToWString(iter->second) << std::endl
+				(*m_ostream) << HtmlString::ToWString(iter->first) << L":" << HtmlString::ToWString(iter->second) << std::endl
 							 << std::endl;
 			}
 

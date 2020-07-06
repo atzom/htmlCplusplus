@@ -39,7 +39,7 @@
 #include "IHtmlBeautify.h"
 #include "IHtmlHead.h"
 #include "HtmlString.h"
-#include "Tag.h"
+#include "ITag.h"
 
 namespace htmlCplusplus
 {
@@ -50,7 +50,7 @@ namespace htmlCplusplus
 
         IHtmlBeautify *m_Beautify = NULL;
 
-        std::map<std::string, htmlCplusplus::Tag *> m_tags;
+        std::map<std::string, ITag *> m_tags;
 
         bool m_Disposed = false;
 
