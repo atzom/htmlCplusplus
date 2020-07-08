@@ -53,6 +53,21 @@ namespace htmlCplusplus
         m_tags.clear();
     }
 
+    void HtmlHead::SetParent(IParentChildRelation *relation)
+    {
+        IParent *parent = static_cast<IParent *>(relation);
+
+        if (parent != NULL)
+        {
+            m_Parent = parent;
+        }
+    }
+
+    void HtmlHead::RemoveParent()
+    {
+        m_Parent = NULL;
+    }
+
     void HtmlHead::SetStream(std::wostream &ostr)
     {
         m_ostream = &ostr;
@@ -185,6 +200,9 @@ namespace htmlCplusplus
         if (!m_Disposed)
         {
             m_Disposed = true;
+
+            if (m_Parent)
+                m_Parent->RemoveChild(static_cast<IParentChildRelation *>(static_cast<IChild *>(this)), false);
 
             delete this;
         }

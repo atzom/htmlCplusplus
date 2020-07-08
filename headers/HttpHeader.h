@@ -36,6 +36,7 @@
 #include <map>
 
 #include "IHttpHeader.h"
+#include "IParent.h"
 
 namespace htmlCplusplus
 {
@@ -48,6 +49,8 @@ namespace htmlCplusplus
 			std::wostream *m_ostream;
 			std::map<std::string, std::string> m_headers;
 
+			IParent *m_Parent = NULL;
+
 			bool m_Disposed = false;
 
 		protected:
@@ -55,6 +58,9 @@ namespace htmlCplusplus
 
 		public:
 			HttpHeader(std::wostream &ostr);
+
+			void SetParent(IParentChildRelation *relation);
+        	void RemoveParent();
 
 			void SetStream(std::wostream &ostr);
 

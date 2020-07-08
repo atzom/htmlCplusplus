@@ -50,6 +50,8 @@ namespace htmlCplusplus
 
         IHtmlBeautify *m_Beautify = NULL;
 
+        IParent *m_Parent = NULL;
+
         std::map<std::string, ITag *> m_tags;
 
         bool m_Disposed = false;
@@ -63,6 +65,9 @@ namespace htmlCplusplus
         HtmlHead(std::wostream &stream);
 
         void Dispose();
+
+        void SetParent(IParentChildRelation *relation);
+        void RemoveParent();
 
         void SetStream(std::wostream &ostr);
         void SetBeautifier(IHtmlBeautify *beautify);

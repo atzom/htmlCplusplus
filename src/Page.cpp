@@ -55,6 +55,7 @@ namespace htmlCplusplus
         if (contentType.length() > 0)
         {
             m_httpHeaders = new http::HttpHeader(ostr);
+            m_httpHeaders->SetParent(this);
             m_httpHeaders->Add("Content-Type", contentType);
         }
         else
@@ -63,8 +64,10 @@ namespace htmlCplusplus
         }
 
         m_Beautify = new HtmlBeautify();
+        m_Beautify->SetParent(this);
 
         m_htmlHead = new htmlCplusplus::HtmlHead(ostr);
+        m_htmlHead->SetParent(this);
         m_htmlHead->SetBeautifier(m_Beautify);
 
         if (autoRender)
@@ -90,12 +93,15 @@ namespace htmlCplusplus
 
         if (m_httpHeaders != NULL)
         {
+            m_httpHeaders->SetParent(this);
             m_httpHeaders->SetStream(ostr);
         }
 
         m_Beautify = new HtmlBeautify();
+        m_Beautify->SetParent(this);
 
         m_htmlHead = new htmlCplusplus::HtmlHead(ostr);
+        m_htmlHead->SetParent(this);
         m_htmlHead->SetBeautifier(m_Beautify);
 
         if (autoRender)
@@ -120,11 +126,13 @@ namespace htmlCplusplus
         m_httpHeaders = NULL;
 
         m_Beautify = new HtmlBeautify();
+        m_Beautify->SetParent(this);
 
         m_htmlHead = htmlHead;
 
         if (m_htmlHead)
         {
+            m_htmlHead->SetParent(this);
             m_htmlHead->SetStream(ostr);
             m_htmlHead->SetBeautifier(m_Beautify);
         }
@@ -152,15 +160,18 @@ namespace htmlCplusplus
 
         if (m_httpHeaders != NULL)
         {
+            m_httpHeaders->SetParent(this);
             m_httpHeaders->SetStream(ostr);
         }
 
         m_Beautify = new HtmlBeautify();
+        m_Beautify->SetParent(this);
 
         m_htmlHead = htmlHead;
 
         if (m_htmlHead)
         {
+            m_htmlHead->SetParent(this);
             m_htmlHead->SetStream(ostr);
             m_htmlHead->SetBeautifier(m_Beautify);
         }
@@ -188,15 +199,22 @@ namespace htmlCplusplus
 
         if (m_httpHeaders != NULL)
         {
+            m_httpHeaders->SetParent(this);
             m_httpHeaders->SetStream(ostr);
         }
 
+
         m_Beautify = beautify;
+
+        if (m_Beautify)
+            m_Beautify->SetParent(this);
+
 
         m_htmlHead = htmlHead;
 
         if (m_htmlHead)
         {
+            m_htmlHead->SetParent(this);
             m_htmlHead->SetStream(ostr);
             m_htmlHead->SetBeautifier(m_Beautify);
         }
@@ -219,16 +237,16 @@ namespace htmlCplusplus
             RenderEnd();
         }
 
-        if (m_htmlHead)
-        {
-            m_htmlHead->Dispose();
-            m_htmlHead = NULL;
-        }
-
         if (m_httpHeaders)
         {
             m_httpHeaders->Dispose();
             m_httpHeaders = NULL;
+        }
+
+        if (m_htmlHead)
+        {
+            m_htmlHead->Dispose();
+            m_htmlHead = NULL;
         }
 
         if (m_Beautify)
@@ -238,7 +256,42 @@ namespace htmlCplusplus
         }
     }
 
-    // ----- [Private Helper methods]
+    void Page::RemoveChild(IParentChildRelation *relation, bool dispose)
+    {
+        //TODO
+        if (
+                ((dynamic_cast<http::IHttpHeader *>(static_cast<IChild *>(relation))) != NULL) &&
+                (reinterpret_cast<uintptr_t>((static_cast<http::IHttpHeader *>(static_cast<IChild *>(relation)))) == reinterpret_cast<uintptr_t>(m_httpHeaders))
+        )
+        {
+            if (dispose)
+                m_httpHeaders->Dispose();
+
+            m_httpHeaders = NULL;
+        }
+        else if (
+                ((dynamic_cast<IHtmlHead *>(static_cast<IChild *>(relation))) != NULL) &&
+                (reinterpret_cast<uintptr_t>((static_cast<IHtmlHead *>(static_cast<IChild *>(relation)))) == reinterpret_cast<uintptr_t>(m_htmlHead))
+        )
+        {
+            if (dispose)
+                m_htmlHead->Dispose();
+
+            m_htmlHead = NULL;
+        }
+        else if (
+                ((dynamic_cast<IHtmlBeautify *>(static_cast<IChild *>(relation))) != NULL) &&
+                (reinterpret_cast<uintptr_t>((static_cast<IHtmlBeautify *>(static_cast<IChild *>(relation)))) == reinterpret_cast<uintptr_t>(m_Beautify))
+        )
+        {
+            if (dispose)
+                m_Beautify->Dispose();
+
+            m_Beautify = NULL;
+        }
+    }
+
+    #pragma region Private methods
 
     void Page::RenderStart()
     {
@@ -290,9 +343,9 @@ namespace htmlCplusplus
         RenderEnd();
     }
 
-    // ------ []
-
-    // ------ [ Http Headers]
+    #pragma endregion
+    
+    #pragma region Http Headers
 
     void Page::HttpHeadersAdd(string name, string content)
     {
@@ -316,6 +369,6 @@ namespace htmlCplusplus
         }
     }
 
-    // ------ []
+    #pragma endregion
 
 } // namespace htmlCplusplus

@@ -31,14 +31,14 @@
 #ifndef _html_IChild
 #define _html_IChild
 
-// class IParent;
+#include "IParentChildRelation.h"
 
 namespace htmlCplusplus
 {
-    class IChild
+    class IChild: public IParentChildRelation
     {
     public:
-        // virtual void SetParent(IParent *parent) = 0;
+        virtual void SetParent(IParentChildRelation *relation) = 0;
         virtual void RemoveParent() = 0;
     };
 

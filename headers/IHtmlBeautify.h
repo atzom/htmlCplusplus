@@ -33,6 +33,8 @@
 
 #include <ostream>
 
+#include "IChild.h"
+
 namespace htmlCplusplus
 {
     typedef struct Identation
@@ -44,11 +46,16 @@ namespace htmlCplusplus
 
     } Identation;
 
-    class IHtmlBeautify
+    class IHtmlBeautify: public IChild
     {
     public:
-        virtual void RenderIdentation(std::wostream *m_ostream, Identation identation) = 0;
+
         virtual void Dispose() = 0;
+
+        virtual void SetParent(IParentChildRelation *relation) = 0;
+        virtual void RemoveParent() = 0;
+
+        virtual void RenderIdentation(std::wostream *m_ostream, Identation identation) = 0;
     };
 } // namespace htmlCplusplus
 

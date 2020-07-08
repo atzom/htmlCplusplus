@@ -52,9 +52,9 @@ namespace htmlCplusplus
         m_Tags.clear();
     }
 
-    void HtmlBody::RemoveChild(IChild *child, bool dispose)
+    void HtmlBody::RemoveChild(IParentChildRelation *relation, bool dispose)
     {
-        ITag *tag = dynamic_cast<ITag *>(child);
+        ITag *tag = static_cast<ITag *>(static_cast<IChild *>(relation));
 
         if (tag != NULL)
         {
@@ -71,7 +71,7 @@ namespace htmlCplusplus
 
             if (iter != m_Tags.end())
             {
-                child->RemoveParent();
+                (static_cast<IChild *>(relation))->RemoveParent();
 
                 m_Tags.erase(iter);
 

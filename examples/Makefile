@@ -56,6 +56,11 @@ example9: HtmlLib
 	@test -d $(EXAMPLES_BIN) || mkdir $(EXAMPLES_BIN)
 	@echo -n "- Compiling Example "$@
 	@$(CPP) $(CPPFLAGS) -o $(EXAMPLES_BIN)/$@ $@.cpp -L$(HTML_OBJS_DIR) -lhtmlCplusplus && echo " : Successful" || echo " : Failed"	
+
+example10: HtmlLib
+	@test -d $(EXAMPLES_BIN) || mkdir $(EXAMPLES_BIN)
+	@echo -n "- Compiling Example "$@
+	@$(CPP) $(CPPFLAGS) -o $(EXAMPLES_BIN)/$@ $@.cpp -L$(HTML_OBJS_DIR) -lhtmlCplusplus && echo " : Successful" || echo " : Failed"	
 	
 
-examples: HtmlLib example1 example2 example3 example4 example5 example6 example7 example8 example9
+examples: HtmlLib example1 example2 example3 example4 example5 example6 example7 example8 example9 example10

@@ -79,6 +79,8 @@ namespace htmlCplusplus
         Page(std::wostream &ostr, http::IHttpHeader *httpHeaders, IHtmlHead *htmlHead, IHtmlBeautify *beautify, bool autoRender = false, Identation identation = (Identation){true, 4, 1});
         ~Page();
 
+        void RemoveChild(IParentChildRelation *relation, bool dispose);
+
         void HttpHeadersClear();
         void HttpHeadersSend();
         void HttpHeadersAdd(string name, string content);

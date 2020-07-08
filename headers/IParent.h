@@ -31,14 +31,14 @@
 #ifndef _html_IParent
 #define _html_IParent
 
-#include "IChild.h"
+#include "IParentChildRelation.h"
 
 namespace htmlCplusplus
 {
-    class IParent
+    class IParent: public IParentChildRelation
     {
     public:
-        virtual void RemoveChild(IChild *child, bool dispose) = 0;
+        virtual void RemoveChild(IParentChildRelation *relation, bool dispose) = 0;
     };
 
 } // namespace htmlCplusplus

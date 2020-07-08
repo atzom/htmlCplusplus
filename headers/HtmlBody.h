@@ -53,7 +53,7 @@ namespace htmlCplusplus
 
         void Add(ITag *tag);
 
-        void RemoveChild(IChild *child, bool dispose);
+        void RemoveChild(IParentChildRelation *relation, bool dispose);
 
         void Render(Identation identation);
     };

@@ -35,6 +35,7 @@
 #include <string>
 
 #include "IHtmlBeautify.h"
+#include "IParent.h"
 
 namespace htmlCplusplus
 {
@@ -44,14 +45,20 @@ namespace htmlCplusplus
     private:
         bool m_Disposed = false;
 
+        IParent *m_Parent = NULL;
+
     protected:
         ~HtmlBeautify();
 
     public:
         HtmlBeautify();
 
-        virtual void RenderIdentation(std::wostream *m_ostream, Identation identation);
         virtual void Dispose();
+
+        virtual void SetParent(IParentChildRelation *relation);
+        virtual void RemoveParent();
+
+        virtual void RenderIdentation(std::wostream *m_ostream, Identation identation);
     };
 
 } // namespace htmlCplusplus

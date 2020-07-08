@@ -31,15 +31,19 @@
 #ifndef _http_IHttpHeader
 #define _http_IHttpHeader
 
+#include "IChild.h"
+
 namespace htmlCplusplus
 {
-
     namespace http
     {
-        class IHttpHeader
+        class IHttpHeader : public IChild
         {
         public:
             virtual void Dispose() = 0;
+
+            virtual void SetParent(IParentChildRelation *relation) = 0;
+            virtual void RemoveParent() = 0;
 
             virtual void SetStream(std::wostream &ostr) = 0;
 

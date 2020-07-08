@@ -24,7 +24,7 @@ HTML_OBJS = $(patsubst $(HTML_SRC_DIR)/%.cpp,$(HTML_OBJS_DIR)/%.o,$(HTML_SRC_FIL
 $(HTML_OBJS_DIR)/%.o: $(HTML_SRC_DIR)/%.cpp
 	@test -d $(HTML_OBJS_DIR) || mkdir $(HTML_OBJS_DIR)
 	@echo -n "- Compiling Html object "$@
-	@$(CPP) $(CPPFLAGS) -fPIC -c -o $@ $^ && echo " : Successful" || echo " : Failed"
+	@$(CPP) $(CPPFLAGS) -fPIC -c -o $@ $^ && echo " : Successful" || (echo " : Failed"; exit 1)
 	
 Html: $(HTML_OBJS)
 

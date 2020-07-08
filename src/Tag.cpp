@@ -165,8 +165,10 @@ namespace htmlCplusplus
         m_properties.clear();
     }
 
-    void Tag::SetParent(IParent *parent)
+    void Tag::SetParent(IParentChildRelation *relation)
     {
+        IParent *parent = static_cast<IParent *>(relation);
+
         if (parent != NULL)
         {
             m_Parent = parent;
@@ -190,9 +192,9 @@ namespace htmlCplusplus
         }
     }
 
-    void Tag::RemoveChild(IChild *child, bool dispose)
+    void Tag::RemoveChild(IParentChildRelation *relation, bool dispose)
     {
-        ITag *tag = dynamic_cast<ITag *>(child);
+        ITag *tag = static_cast<ITag *>(static_cast<IChild *>(relation));
 
         if (tag != NULL)
         {
@@ -210,7 +212,7 @@ namespace htmlCplusplus
 
             if (iter != m_otherTags.end())
             {
-                child->RemoveParent();
+                (static_cast<IChild *>(relation))->RemoveParent();
 
                 m_otherTags.erase(iter);
 
@@ -237,7 +239,7 @@ namespace htmlCplusplus
 
     void Tag::RemoveTag(ITag *tag)
     {
-        RemoveChild(tag);
+        RemoveChild(static_cast<IParentChildRelation *>(static_cast<IChild *>(tag)));
     }
 
     void Tag::Render(Identation identation)
@@ -320,7 +322,7 @@ namespace htmlCplusplus
             m_Disposed = false;
 
             if (m_Parent)
-                m_Parent->RemoveChild(this, false);
+                m_Parent->RemoveChild(static_cast<IParentChildRelation *>(static_cast<IChild *>(this)), false);
 
             delete this;
         }

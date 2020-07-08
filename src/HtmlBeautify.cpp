@@ -40,6 +40,21 @@ namespace htmlCplusplus
     {
     }
 
+    void HtmlBeautify::SetParent(IParentChildRelation *relation)
+    {
+        IParent *parent = static_cast<IParent *>(relation);
+
+        if (parent != NULL)
+        {
+            m_Parent = parent;
+        }
+    }
+
+    void HtmlBeautify::RemoveParent()
+    {
+        m_Parent = NULL;
+    }
+
     void HtmlBeautify::RenderIdentation(std::wostream *m_ostream, Identation identation)
     {
         if ((m_ostream) && (identation.Ident))
@@ -59,7 +74,10 @@ namespace htmlCplusplus
         {
             m_Disposed = true;
 
+            if (m_Parent)
+                m_Parent->RemoveChild(static_cast<IParentChildRelation *>(static_cast<IChild *>(this)), false);
+
             delete this;
         }
     }
-}
+} // namespace htmlCplusplus

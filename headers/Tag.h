@@ -43,6 +43,8 @@
 #include <list>
 
 #include "ITag.h"
+#include "IParent.h"
+#include "IChild.h"
 
 #include "HtmlBeautify.h"
 #include "HtmlString.h"
@@ -90,9 +92,9 @@ namespace htmlCplusplus
         Tag(std::string name, std::string content, bool escapeChars, bool closeTag = true);
         Tag(std::string name, std::wstring content, bool escapeChars, bool closeTag = true);
 
-        void SetParent(IParent *parent);
+        void SetParent(IParentChildRelation *relation);
         void RemoveParent();
-        void RemoveChild(IChild *tag, bool dispose = true);
+        void RemoveChild(IParentChildRelation *relation, bool dispose = true);
 
         void Dispose();
 

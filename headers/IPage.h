@@ -36,12 +36,15 @@
 #include <map>
 
 #include "ITag.h"
+#include "IParent.h"
 
 namespace htmlCplusplus
 {
-    class IPage
+    class IPage: public IParent
     {
     public:
+        virtual void RemoveChild(IParentChildRelation *relation, bool dispose) = 0;
+
         virtual void HttpHeadersClear() = 0;
         virtual void HttpHeadersSend() = 0;
         virtual void HttpHeadersAdd(std::string name, std::string content) = 0;

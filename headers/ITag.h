@@ -48,9 +48,9 @@ namespace htmlCplusplus
     public:
         virtual void Dispose() = 0;
 
-        virtual void SetParent(IParent *parent) = 0;
+        virtual void SetParent(IParentChildRelation *relation) = 0;
         virtual void RemoveParent() = 0;
-        virtual void RemoveChild(IChild *child, bool dispose) = 0;
+        virtual void RemoveChild(IParentChildRelation *relation, bool dispose) = 0;
 
         virtual void SetStream(std::wostream &ostr) = 0;
         virtual void SetBeautifier(IHtmlBeautify *beautify) = 0;
