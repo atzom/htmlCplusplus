@@ -35,6 +35,7 @@
 #include <string>
 #include <map>
 
+#include "IHtmlBody.h"
 #include "ITag.h"
 #include "IParent.h"
 
@@ -54,6 +55,7 @@ namespace htmlCplusplus
         virtual void HeadAddScript(std::wstring script) = 0;
         virtual void HeadAddLink(std::map<std::string, std::wstring> attributes) = 0;
 
+        virtual void SetBody(IHtmlBody *body) = 0;
         virtual void BodyAdd(std::string name, std::string content, bool escapeChars) = 0;
         virtual void BodyAdd(ITag *tag) = 0;
 

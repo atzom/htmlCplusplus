@@ -39,8 +39,8 @@
 
 #include "IPage.h"
 #include "IHtmlHead.h"
-#include "HtmlBody.h"
-#include "Tag.h"
+#include "IHtmlBody.h"
+#include "ITag.h"
 
 using namespace std;
 
@@ -60,7 +60,7 @@ namespace htmlCplusplus
         http::IHttpHeader *m_httpHeaders;
 
         IHtmlHead *m_htmlHead;
-        HtmlBody m_htmlBody;
+        IHtmlBody *m_htmlBody;
 
         IHtmlBeautify *m_Beautify;
 
@@ -70,6 +70,8 @@ namespace htmlCplusplus
         void RenderBody();
         void RenderBodyEnd();
         void RenderEnd();
+
+        void AddToBody(ITag *tag);
 
     public:
         Page(std::wostream &ostr, std::string contentType = "text/html;charset=iso-8859-1", bool autoRender = false, Identation identation = (Identation){true, 4, 1});
@@ -90,6 +92,7 @@ namespace htmlCplusplus
         void HeadAddScript(std::wstring script);
         void HeadAddLink(std::map<std::string, std::wstring> attributes);
 
+        void SetBody(IHtmlBody *body);
         void BodyAdd(string name, string content, bool escapeChars);
         void BodyAdd(ITag *tag);
 

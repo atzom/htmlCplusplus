@@ -254,11 +254,16 @@ namespace htmlCplusplus
             m_Beautify->Dispose();
             m_Beautify = NULL;
         }
+
+        if (m_htmlBody)
+        {
+            m_htmlBody->Dispose();
+            m_htmlBody = NULL;
+        }
     }
 
     void Page::RemoveChild(IParentChildRelation *relation, bool dispose)
     {
-        //TODO
         if (
                 ((dynamic_cast<http::IHttpHeader *>(static_cast<IChild *>(relation))) != NULL) &&
                 (reinterpret_cast<uintptr_t>((static_cast<http::IHttpHeader *>(static_cast<IChild *>(relation)))) == reinterpret_cast<uintptr_t>(m_httpHeaders))
@@ -314,8 +319,11 @@ namespace htmlCplusplus
 
     void Page::RenderBody()
     {
-        m_htmlBody.SetBeautifier(m_Beautify);
-        m_htmlBody.Render((Identation){m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level});
+        if (m_htmlBody)
+        {
+            m_htmlBody->SetBeautifier(m_Beautify);
+            m_htmlBody->Render((Identation){m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level});
+        }
     }
 
     void Page::RenderBodyEnd()

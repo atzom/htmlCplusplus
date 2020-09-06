@@ -38,6 +38,23 @@ using namespace std;
 
 namespace htmlCplusplus
 {
+    void Page::AddToBody(ITag *tag)
+    {
+        if (m_htmlBody != NULL)
+        {
+            m_htmlBody->Add(tag);
+        }
+        else
+        {
+            tag->Dispose();
+        }
+    }
+
+    void Page::SetBody(IHtmlBody *body)
+    {
+        m_htmlBody = body;
+    }
+
     void Page::BodyAdd(string name, string content, bool escapeChars)
     {
         Tag *tag = new Tag(*m_ostream);
@@ -51,7 +68,7 @@ namespace htmlCplusplus
             tag->Dispose();
         }
         else
-            m_htmlBody.Add(tag);
+            AddToBody(tag);
     }
 
     void Page::BodyAdd(ITag *tag)
@@ -64,7 +81,7 @@ namespace htmlCplusplus
             if (m_autoRender)
                 tag->Render((Identation){m_Identation.Ident, m_Identation.IdentNumber, m_Identation.Level});
             else
-                m_htmlBody.Add(tag);
+                AddToBody(tag);
         }
     }
 

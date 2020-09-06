@@ -52,6 +52,34 @@ namespace htmlCplusplus
         m_Tags.clear();
     }
 
+    void HtmlBody::Dispose()
+    {
+        if (!m_Disposed) 
+        {
+            m_Disposed = true;
+
+            if (m_Parent)
+                m_Parent->RemoveChild(static_cast<IParentChildRelation *>(static_cast<IChild *>(this)), false);
+
+            delete this;
+        }
+    }
+
+    void HtmlBody::SetParent(IParentChildRelation *relation)
+    {
+        IParent *parent = static_cast<IParent *>(relation);
+
+        if (parent != NULL)
+        {
+            m_Parent = parent;
+        }
+    }
+
+    void HtmlBody::RemoveParent()
+    {
+        m_Parent = NULL;
+    }
+
     void HtmlBody::RemoveChild(IParentChildRelation *relation, bool dispose)
     {
         ITag *tag = static_cast<ITag *>(static_cast<IChild *>(relation));

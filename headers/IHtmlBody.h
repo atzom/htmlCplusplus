@@ -28,41 +28,30 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef _html_PageBody
-#define _html_PageBody
+#ifndef _html_IHtmlBody
+#define _html_IHtmlBody
 
 #include <list>
 
-#include "IHtmlBody.h"
+#include "IParent.h"
+#include "IChild.h"
+#include "ITag.h"
+#include "IHtmlBeautify.h"
 
 namespace htmlCplusplus
 {
-    class HtmlBody: public IHtmlBody
+    class IHtmlBody : public IParent, public IChild
     {
-    private:
-        std::list<ITag *> m_Tags;
-
-        bool m_Disposed = false;
-
-        IParent *m_Parent = NULL;
-
-        IHtmlBeautify *m_Beautify = NULL;
-
-    protected:
-        ~HtmlBody();
-
     public:
-        HtmlBody();
+        virtual void Dispose() = 0;
 
-        virtual void Dispose();
+        virtual void SetParent(IParentChildRelation *relation) = 0;
+        virtual void RemoveParent() = 0;
+        virtual void RemoveChild(IParentChildRelation *relation, bool dispose) = 0;
 
-        virtual void SetParent(IParentChildRelation *relation);
-        virtual void RemoveParent();
-        virtual void RemoveChild(IParentChildRelation *relation, bool dispose);
-
-        virtual void SetBeautifier(IHtmlBeautify *beautify);
-        virtual void Add(ITag *tag);
-        virtual void Render(Identation identation);
+        virtual void SetBeautifier(IHtmlBeautify *beautify) = 0;
+        virtual void Add(ITag *tag) = 0;
+        virtual void Render(Identation identation) = 0;
     };
 
 } // namespace htmlCplusplus

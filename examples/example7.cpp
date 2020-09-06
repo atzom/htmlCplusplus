@@ -1,4 +1,6 @@
 #include "Page.h"
+#include "Tag.h"
+#include "HtmlBody.h"
 #include "HttpHeader.h"
 #include "HtmlHead.h"
 #include "HtmlBeautify.h"
@@ -22,6 +24,8 @@ int main(int argc, char **argv)
     htmlCplusplus::HtmlHead *htmlHead = new htmlCplusplus::HtmlHead(std::wcout);
     htmlCplusplus::Page page(std::wcout, httpHeader, htmlHead, beautify, false);
 
+    htmlCplusplus::IHtmlBody *body = new htmlCplusplus::HtmlBody();
+
     httpHeader->Add("Content-Type", "text/html;charset=iso-8859-7");
 
     htmlHead->SetTitle(L"htmlCplusplus Utility for C++");
@@ -29,12 +33,12 @@ int main(int argc, char **argv)
     htmlHead->AddScript(L"function callme() { document.getElementById(\"txtArea\").innerHTML = \"Created by Andreas Tzomakas\"; }");
     htmlHead->AddMeta({{"content-type", L"text/html; charset=utf-8"}, {"http-equiv", L"content-type"}});
 
-    htmlCplusplus::Tag *h1 = new htmlCplusplus::Tag("h1", "htmlCplusplus Utility for C++", true);
-    htmlCplusplus::Tag *p = new htmlCplusplus::Tag("p");
-    htmlCplusplus::Tag *b = new htmlCplusplus::Tag("b");
-    htmlCplusplus::Tag *span = new htmlCplusplus::Tag("span", L"Ελληνικό περιεχόμενο!", true);
-    htmlCplusplus::Tag *textarea = new htmlCplusplus::Tag("textarea", L"Παρακαλώ κάντε click πάνω στο κουμπί.", false);
-    htmlCplusplus::Tag *btn = new htmlCplusplus::Tag("button", "C++", true);
+    htmlCplusplus::ITag *h1 = new htmlCplusplus::Tag("h1", "htmlCplusplus Utility for C++", true);
+    htmlCplusplus::ITag *p = new htmlCplusplus::Tag("p");
+    htmlCplusplus::ITag *b = new htmlCplusplus::Tag("b");
+    htmlCplusplus::ITag *span = new htmlCplusplus::Tag("span", L"Ελληνικό περιεχόμενο!", true);
+    htmlCplusplus::ITag *textarea = new htmlCplusplus::Tag("textarea", L"Παρακαλώ κάντε click πάνω στο κουμπί.", false);
+    htmlCplusplus::ITag *btn = new htmlCplusplus::Tag("button", "C++", true);
 
     span->SetContentNewLines(false, false);
 
@@ -56,9 +60,11 @@ int main(int argc, char **argv)
     textarea->AddAttribute("cols", "100", false);
     textarea->AddAttribute("rows", "20", false);
 
+    page.SetBody(body);
     page.BodyAdd(h1);
     page.BodyAdd(p);
     page.BodyAdd(textarea);
+
     page.Render();
 
     return 0;
